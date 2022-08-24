@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recognizer", "Recognizer\Recognizer.csproj", "{0CA32250-A366-4C36-8CE6-68CFF3B14974}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recognizer.Test", "Recognizer.Test\Recognizer.Test.csproj", "{B5DC132F-B88A-423B-8BF2-E56CCF8256B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CA32250-A366-4C36-8CE6-68CFF3B14974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CA32250-A366-4C36-8CE6-68CFF3B14974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CA32250-A366-4C36-8CE6-68CFF3B14974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CA32250-A366-4C36-8CE6-68CFF3B14974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5DC132F-B88A-423B-8BF2-E56CCF8256B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5DC132F-B88A-423B-8BF2-E56CCF8256B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5DC132F-B88A-423B-8BF2-E56CCF8256B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5DC132F-B88A-423B-8BF2-E56CCF8256B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
