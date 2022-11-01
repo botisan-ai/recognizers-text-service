@@ -13,6 +13,11 @@ namespace Recognizer.Models
 
     public class RecognizeRangeWithUnitsInput : RecognizeNumberWithUnitInput
     {
-        private bool ShowNumbers { get; set; }
+        public bool ShowNumbers { get; set; }
     }    
+    
+    public class RecognizeCombinedInput: RecognizeRangeWithUnitsInput {
+        public List<string> Entities { get; set; }
+        public bool MergeResults { get; set; }
+    }
 }
