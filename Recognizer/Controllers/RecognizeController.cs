@@ -9,7 +9,7 @@ using Recognizer.utils;
 namespace Recognizer.Controllers;
 
 [ApiController]
-[Route("[Controller]")]
+[Route("recognize")]
 public class RecognizerController: ControllerBase
 {
 
