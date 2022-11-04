@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.Number;
 using Microsoft.Recognizers.Text.NumberWithUnit;
+using Microsoft.Recognizers.Text.DateTime;
+using Microsoft.Recognizers.Text.Sequence;
 using Recognizer.Models;
 using Recognizer.services;
 using Recognizer.utils;
@@ -14,12 +16,12 @@ public class RecognizerController: ControllerBase
 {
 
     private readonly RecognizeService _recognizeService;
-        
+
     public RecognizerController(RecognizeService recognizeService)
     {
         _recognizeService = recognizeService;
     }
-    
+
     /**
      * recognize all number, currency, dimension and their range
      */
@@ -60,7 +62,7 @@ public class RecognizerController: ControllerBase
         );
         return result;
     }
-    
+
     /**
      * recognize currency_range
      */
@@ -104,6 +106,31 @@ public class RecognizerController: ControllerBase
     }
 
     /**
+     * recognize datetime
+     */
+    [HttpPost("datetime")]
+    public List<ModelResult> RecognizeDateTime([FromBody] RecognizeInput input)
+    {
+        // TODO: make refTime configurable
+        return DateTimeRecognizer.RecognizeDateTime(
+            input.Text,
+            input.Culture
+        );
+    }
+
+    /**
+     * recognize phone number
+     */
+    [HttpPost("phone_number")]
+    public List<ModelResult> RecognizePhoneNumber([FromBody] RecognizeInput input)
+    {
+        return SequenceRecognizer.RecognizePhoneNumber(
+            input.Text,
+            input.Culture
+        );
+    }
+
+    /**
      * method
      */
     private List<ModelResult> doRecognizeCombined(RecognizeCombinedInput input)
@@ -117,6 +144,9 @@ public class RecognizerController: ControllerBase
         var numberRangeResults = new List<ModelResult>();
         var currencyRangeResults = new List<ModelResult>();
         var dimensionRangeResults = new List<ModelResult>();
+
+        var datetimeResults = new List<ModelResult>();
+        var phoneNumberResults = new List<ModelResult>();
 
 
         if (entities == null || entities.Contains("number")) {
@@ -151,6 +181,14 @@ public class RecognizerController: ControllerBase
             ));
         }
 
+        if (entities == null || entities.Any(entity => entity.StartsWith("datetime"))) {
+            datetimeResults.AddRange(RecognizeDateTime(input));
+        }
+
+        if (entities == null || entities.Contains("phonenumber")) {
+            phoneNumberResults.AddRange(RecognizePhoneNumber(input));
+        }
+
         var finalResults = new List<ModelResult>()
                 .Concat(currencyRangeResults)
                 .Concat(dimensionRangeResults)
@@ -158,6 +196,8 @@ public class RecognizerController: ControllerBase
                 .Concat(currencyResults)
                 .Concat(dimensionResults)
                 .Concat(numberResults)
+                .Concat(datetimeResults)
+                .Concat(phoneNumberResults)
                 .Aggregate(
                         new List<ModelResult>(),
                         (results, modelResult) => {
@@ -167,7 +207,7 @@ public class RecognizerController: ControllerBase
                             }
 
                             var containsResult = results
-                                    .Any(result => modelResult.Start >= result.Start 
+                                    .Any(result => modelResult.Start >= result.Start
                                                    && modelResult.End <= result.End);
 
                             if (!containsResult) {
